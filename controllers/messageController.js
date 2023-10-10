@@ -1,6 +1,6 @@
 const Message = require('../models/message');
 const Users = require('../models/user')
-const { getUserUsername, getIdUsername } = require('../services/userService');
+const { getUserUsername, getIdUsername, unreadCountForUser } = require('../services/userService');
 
 const message_index = async (req, res) => {
   try {
@@ -8,17 +8,36 @@ const message_index = async (req, res) => {
       const messages = await Message.find();
       const usernames = await Promise.all(messages.map(message => getUserUsername(message.user)));
       const pfps = await Promise.all(messages.map(message => getIdUsername(message.user)))
+      const unreadCounts = await Promise.all(users.map(userb => unreadCountForUser(userb.id)));
       const user = res.locals.user.id
 
-      messages.forEach((message, index) => {
-        console.log(message)
-        
-        if ((message.recipient === req.query.user && message.user === user) || (message.recipient === user && message.user === req.query.user)) {
-          console.log(message.message)
-        }
-      }) 
+      let unreadCount = 0;
 
-      res.render('messages', { users, req, messages, usernames, pfps });
+
+      if (req.query.user) {
+        messages.forEach(async (message, index) => {
+      
+          // Convert ObjectId values to strings for comparison
+          const recipientId = message.recipient.toString();
+          const userId = user.toString();
+        
+          // Check if the message involves the current user
+          const isMessageToUser = recipientId === userId;
+          const isMessageFromUser = message.user.toString() === userId;
+        
+          if (isMessageToUser && !isMessageFromUser && !message.isRead) {
+        
+            // Update the 'isRead' property of the message to true
+            await Message.findByIdAndUpdate(message._id, { isRead: true });
+  
+            unreadCount++;
+          }
+        });
+      }
+
+      
+
+      res.render('messages', { users, req, messages, usernames, pfps, unreadCounts });
   } catch (err) {
       console.log(err);
       res.status(500).send('Internal Server Error');
