@@ -18,6 +18,8 @@ const { createServer } = require('node:http');
 const messageController = require('./controllers/messageController')
 const { getUserUsername } = require('./services/userService');
 
+require("dotenv").config()
+
 
 const handleError = (err, res) => {
   res
@@ -50,7 +52,7 @@ app.get('*', checkUser)
 app.use(checkUser);
 
 // connect to mongodb & listen for requests
-const dburi = 'yourmongodbhere (cannot use anything other)';
+const dburi = `${process.env.MONGODB}`;
 mongoose.connect(dburi)
   .then((result) => {
     server.listen(3001, () => {
