@@ -35,8 +35,8 @@ messagescroll.scrollTop = messagescroll.scrollHeight;
                 const messageData = { 
                     user: '<%= user.id %>', 
                     message: input.value, 
-                    recipient: urlparms.get('user') ,
-                    isRead: false
+                    recipient: urlparms.get('user'),
+                    isRead: true
                 };
                 socket.emit('message', messageData);
     
@@ -48,6 +48,7 @@ messagescroll.scrollTop = messagescroll.scrollHeight;
                     user: '<%= user.id %>',
                     recipient: urlparms.get('user'),
                     message: input.value,
+                    isRead: false,
                 });
                 xhr.onload = () => {
                     if (xhr.readyState == 4 && xhr.status == 201) {
