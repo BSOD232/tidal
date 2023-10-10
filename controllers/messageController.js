@@ -8,6 +8,16 @@ const message_index = async (req, res) => {
       const messages = await Message.find();
       const usernames = await Promise.all(messages.map(message => getUserUsername(message.user)));
       const pfps = await Promise.all(messages.map(message => getIdUsername(message.user)))
+      const user = res.locals.user.id
+
+      messages.forEach((message, index) => {
+        console.log(message)
+        
+        if ((message.recipient === req.query.user && message.user === user) || (message.recipient === user && message.user === req.query.user)) {
+          console.log(message.message)
+        }
+      }) 
+
       res.render('messages', { users, req, messages, usernames, pfps });
   } catch (err) {
       console.log(err);

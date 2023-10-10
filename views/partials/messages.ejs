@@ -31,29 +31,29 @@
             <div class="w-full h-auto bg-secondary p-5 rounded-lg">
                 <% users.forEach(userb => { %>
                     <% if (userb.id !== user.id) { %> <!-- Add this condition to exclude the current user -->
-                      <button class="w-full h-20 bg-gray-700 mb-2 rounded-lg flex flex-row justify-between items-center" onclick="location.href = '/messages?user=<%= userb.id %>'">
-                        <div class="flex flex-row justify-center items-center p-5">
-                          <img src="/images/<%= userb.id %>.png" class="h-12 w-12 rounded-lg mr-4"/>
-                          <p class="text-white"><%= userb.username %></p>
-                        </div>
-                      </button>
+                        <button class="w-full h-20 bg-gray-700 mb-2 rounded-lg flex flex-row justify-between items-center" onclick="location.href = '/messages?user=<%= userb.id %>'">
+                            <div class="flex flex-row justify-center items-center p-5">
+                                <img src="/images/<%= userb.id %>.png" class="h-12 w-12 rounded-lg mr-4"/>
+                                <p class="text-white"><%= userb.username %></p>
+                            </div>
+                        </button>
                     <% } %>
-                  <% }) %>
+                <% }) %>
             </div>
             <% } else { %>
                 <div id="messagescroll" class="w-full h-auto bg-secondary rounded-lg flex justify-between flex-col p-5 max-h-96 overflow-y-scroll">
                     <div id="messages">
                         <% messages.forEach((message, index) => { %>
                             <% if ((message.recipient === req.query.user && message.user === user.id) || (message.recipient === user.id && message.user === req.query.user)) { %>
-                              <div class="flex flex-row">
-                                <img src="/images/<%= pfps[index] %>.png" alt="" class="w-12 h-12 rounded-lg">
-                                <div class="flex flex-col space-between h-10 ml-5 mb-5">
-                                    <p class="font-bold text-white"><%= usernames[index] %></p>
-                                    <p class="text-gray-300"><%= message.message %></p>
+                                <div class="flex flex-row">
+                                    <img src="/images/<%= pfps[index] %>.png" alt="" class="w-12 h-12 rounded-lg">
+                                    <div class="flex flex-col space-between h-10 ml-5 mb-5">
+                                        <p class="font-bold text-white"><%= usernames[index] %></p>
+                                        <p class="text-gray-300"><%= message.message %></p>
+                                    </div>
                                 </div>
-                              </div>
                             <% } %>
-                          <% }) %>
+                        <% }) %>
                     </div>
                     <form class="left-0 w-full" id="messageform">
                         <div class="flex items-center">
