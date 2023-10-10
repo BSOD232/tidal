@@ -7,13 +7,13 @@
     <%- include('./partials/cards.ejs') %>
     
     <script src="/socket.io/socket.io.js"></script>
-    <script>
+    <!-- <script>
         Notification.requestPermission().then(perm => {
             if (perm === "granted") {
                 new Notification("Example")
             }
         })
-    </script>
+    </script> -->
     <script>
 
         const socket = io();
