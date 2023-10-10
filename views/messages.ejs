@@ -32,7 +32,12 @@ messagescroll.scrollTop = messagescroll.scrollHeight;
         form.addEventListener('submit', (e) => {
             e.preventDefault();
             if (input.value) {
-                const messageData = { user: '<%= user.id %>', message: input.value, recipient: urlparms.get('user') };
+                const messageData = { 
+                    user: '<%= user.id %>', 
+                    message: input.value, 
+                    recipient: urlparms.get('user') ,
+                    isRead: false
+                };
                 socket.emit('message', messageData);
     
                 const xhr = new XMLHttpRequest();
