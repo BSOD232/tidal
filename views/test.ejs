@@ -1,0 +1,133 @@
+<!-- signup -->
+
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<%- include('./partials/head.ejs') %>
+
+<body class="h-full">
+
+    <div class="w-full calcheight1 absolute bottom-0 z-index-1 flex justify-center align-top pt-7">
+        <div class="w-6/12 flex items-center flex-col" id="post-container">
+            <div class="relative w-9/12 flex justify-center h-20">
+                <form id="chat-form" class="w-full" action="/signup" method="POST">
+                    <input name="username" type="text" class="h-20 font-mono block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required>
+                    <div class="username error"></div>
+                    <input name="password" type="password" class="h-20 font-mono block w-full p-4 pl-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password" required>
+                    <div class="password error"></div>
+                    <button class="h-20 font-mono block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">Signup</button>
+                    
+                </form>
+                
+                
+            </div>
+        </div>
+    </div>
+    <%- include('./partials/nav.ejs') %>
+
+    <script>
+        const form = document.querySelector('form')
+        const usernameError = document.querySelector('.username.error')
+        const passwordError = document.querySelector('.password.error')
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            // reset errors
+
+            usernameError.textContent = ''
+            passwordError.textContent = ''
+
+            // get values
+            const username = form.username.value
+            const password = form.password.value
+
+            try {
+                const res = await fetch('/signup', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, password }),
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                const data = await res.json()
+                console.log(data)
+                if (data.errors) {
+                    usernameError.textContent = data.errors.username
+                    passwordError.textContent = data.errors.password
+                }
+                if (data.user) {
+                    location.assign('/')
+                }
+            }
+            catch (err) {
+                console.log(err)
+            }
+
+        })
+    </script>
+</body>
+
+<!-- login -->
+
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<%- include('./partials/head.ejs') %>
+
+<body class="h-full">
+
+    <div class="w-full calcheight1 absolute bottom-0 z-index-1 flex justify-center align-top pt-7">
+        <div class="w-6/12 flex items-center flex-col" id="post-container">
+            <div class="relative w-9/12 flex justify-center h-20">
+                <form id="chat-form" class="w-full" action="/signup" method="POST">
+                    <input name="username" type="text" class="h-20 font-mono block w-full p-4 pl-20 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Username" required>
+                    <div class="username error"></div>
+                    <input name="password" type="password" class="h-20 font-mono block w-full p-4 pl-20 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Password" required>
+                    <div class="password error"></div>
+                    <button class="h-20 font-mono block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">Login</button>
+                    
+                </form>
+                
+                
+            </div>
+        </div>
+    </div>
+    <%- include('./partials/nav.ejs') %>
+
+    <script>
+        const form = document.querySelector('form')
+        const usernameError = document.querySelector('.username.error')
+        const passwordError = document.querySelector('.password.error')
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            // reset errors
+
+            usernameError.textContent = ''
+            passwordError.textContent = ''
+
+            // get values
+            const username = form.username.value
+            const password = form.password.value
+
+            try {
+                const res = await fetch('/login', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, password }),
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                const data = await res.json()
+                console.log(data)
+                if (data.errors) {
+                    usernameError.textContent = data.errors.username
+                    passwordError.textContent = data.errors.password
+                }
+                if (data.user) {
+                    location.assign('/')
+                }
+            }
+            catch (err) {
+                console.log(err)
+            }
+            
+        })
+    </script>
+</body>

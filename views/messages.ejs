@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#1d232a]">
+<%- include('./partials/head.ejs') %>
+
+<body class="h-full p-7 bg-[#1d232a]">
+    <%- include('./partials/messages.ejs') %>
+    <%- include('./partials/cards.ejs') %>
+    
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        Notification.requestPermission().then(perm => {
+            if (perm === "granted") {
+                new Notification("Example")
+            }
+        })
+    </script>
+    <script>
+
+        const socket = io();
+        const messagescroll = document.getElementById('messagescroll');
+messagescroll.scrollTop = messagescroll.scrollHeight;
+        const form = document.getElementById('messageform');
+        const input = document.getElementById('messageinput');
+        const messages = document.getElementById('messages');
+        const querystring = window.location.search;
+        const urlparms = new URLSearchParams(querystring);
+        const userId = '<%= user.username %>'; // Get the user ID
+        console.log(urlparms.get('user'));
+
+        socket.emit('join', { user: '<%= user.id %>', recipient: urlparms.get('user') });
+    
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (input.value) {
+                const messageData = { user: '<%= user.id %>', message: input.value, recipient: urlparms.get('user') };
+                socket.emit('message', messageData);
+    
+                const xhr = new XMLHttpRequest();
+                xhr.open("POST", "/messages");
+                xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    
+                const body = JSON.stringify({
+                    user: '<%= user.id %>',
+                    recipient: urlparms.get('user'),
+                    message: input.value,
+                });
+                xhr.onload = () => {
+                    if (xhr.readyState == 4 && xhr.status == 201) {
+                        console.log(JSON.parse(xhr.responseText));
+    
+                    } else {
+                        console.log(`Error: ${xhr.status}`);
+                    }
+                };
+                xhr.send(body);
+                input.value = '';
+            }
+        });
+    
+// Add this code to the recipient's client-side code
+    socket.on('message', async (msgData) => {
+        const contain = document.createElement('div');
+        const pfp = document.createElement('img');
+        const contain2 = document.createElement('div');
+        const user = document.createElement('p');
+        const message = document.createElement('p');
+        contain.classList.add('flex')
+        contain.classList.add('flex-row')
+        pfp.classList.add('w-12')
+        pfp.classList.add('h-12')
+        pfp.classList.add('rounded-lg')
+        // const thepfp = await getUserUsername(msgData.username)
+        if (msgData.username == "<%= user.username %>") {
+            pfp.src = "/images/<%= user.id %>.png"
+        } else {
+            pfp.src = `/images/${urlparms.get('user')}.png`
+        }
+        contain2.classList.add('flex')
+        contain2.classList.add('flex-col')
+        contain2.classList.add('space-between')
+        contain2.classList.add('h-10')
+        contain2.classList.add('ml-5')
+        contain2.classList.add('mb-5')
+        user.classList.add('font-bold')
+        user.classList.add('text-white')
+        user.innerText = msgData.username
+        message.classList.add('text-gray-300')
+        message.innerText = msgData.message
+
+        contain.appendChild(pfp)
+        contain.appendChild(contain2)
+        contain2.appendChild(user)
+        contain2.appendChild(message)
+
+
+        messages.appendChild(contain);
+        window.scrollTo(0, document.body.scrollHeight);
+        messagescroll.scrollTop = messagescroll.scrollHeight;
+    });
+    </script>
+    <script>
+        const postcard = document.getElementById('post')
+        const title = document.getElementById('titlepost')
+        const bodypost = document.getElementById('bodypost')
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const post = urlParams.get('post')
+        if (post == 'block') {
+            postcard.classList.add('block')
+        } else {
+            postcard.classList.add('hidden')
+        }
+
+        postcard.addEventListener('submit', (e) => {
+            e.preventDefault()
+
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/posts");
+            xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
+
+            const body = JSON.stringify({
+                id: '<%= user.id %>',
+                user: '<%= user.username %>',
+                title: title.value,
+                body: bodypost.value
+            });
+            xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 201) {
+                    console.log(JSON.parse(xhr.responseText));
+                    
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+            };
+            xhr.send(body);
+            location.href = '/'
+        })
+        const pfpform = document.getElementById('pfps');
+        const settings = urlParams.get('settings')
+        if (settings == 'block') {
+            pfpform.classList.add('block')
+        } else {
+            pfpform.classList.add('hidden')
+        }
+        pfpform.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent the default form submission
+
+            const fileInput = pfpform.querySelector('input[name="pfp"]');
+            const file = fileInput.files[0];
+            
+            if (file) {
+            const formData = new FormData();
+            formData.append('pfp', file);
+            formData.append('id', '<%= user.id %>')
+            
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('File uploaded successfully');
+                        location.href = '/'
+                    // Handle success
+                } else {
+                    console.log('File upload failed');
+                    // Handle failure
+                }
+            })
+            .catch(error => {
+                console.log('Error uploading file:', error);
+                // Handle error
+                });
+            }
+        });
+
+        const messageform = document.getElementById('messageform');
+        const input2 = document.getElementById('messageinput');
+    </script>
+    
+</body>

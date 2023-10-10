@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<%- include('./partials/head.ejs') %>
+
+<body class="h-full bg-[#4D62BF] overflow-hidden">
+    <img src="/pattern.svg" alt="" class="absolute left-0">
+
+    <div class="calcwidth h-full absolute flex flex-col justify-between items-center p-10">
+        <div class="flex flex-row">
+            <img src="logo.svg" alt="" class=" w-12">
+            <p class="ml-4 text-white text-2xl text-ccm flex items-center">Tidal</p>
+        </div>
+        <h1 class="text-white text-[5rem] text-ccm text-center">Twitter like app, <br>for schools.</h1>
+        <div>
+            <ul class="flex flex-row">
+                <li class="text-white text-ccm"><a href="/">Home</a></li>
+                <li class="ml-14 mr-14 text-white">•</li>
+                <li class="text-white text-ccm"><a href="/about">About</a></li>
+                <li class="ml-14 mr-14 text-white">•</li>
+                <li class="text-white text-ccm"><a href="/dev">Developer</a></li>
+                <li class="ml-14 mr-14 text-white">•</li>
+                <li class="text-white text-ccm"><a href="https://github.com/BSOD232/tidal">Github</a></li>
+                <li class="ml-14 mr-14 text-white">•</li>
+                <li class="text-white text-ccm"><a href="https://discord.gg/mhnPt5t2fd">Discord</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="p-14 absolute right-0 rem35 h-full bg-[#1D232A]">
+        <i class="fa-solid fa-circle-up fa-xl mb-7" style="color: #ffffff;"></i>
+        <h1 class="text-white text-ccm mb-7 text-2xl">Join communities, talk to friends, all in school.</h1>
+        <p class="text-[#A7A7A7] text-ccc mb-7">Participating in school communities and conversing with friends cultivates social connections and personal development in education.</p>
+        <form id="chat-form" class="w-full h-62 mb-7" action="/signup" method="POST">
+            <div class="mb-7 flex items-center">
+                <i class="fa-solid fa-circle-user fa-xl absolute ml-4" style="color: #ffffff;"></i>
+                <input name="username" type="text" class="font-light text-white text-ccm w-full h-14 bg-[#1D232A] border border-[#3d4248] rounded-lg pl-14 focus:outline-none focus:ring focus:ring-[#4D62BF] focus:bg-[#242C34] transition ease-in-out" placeholder="Username" required>
+            </div>
+            <div class="username error"></div>
+            <div class="mb-7 flex items-center">
+                <i class="fa-solid fa-lock fa-xl absolute ml-4" style="color: #ffffff;"></i>
+                <input name="password" type="password" class="font-light text-white text-ccm w-full h-14 bg-[#1D232A] border border-[#3d4248] rounded-lg pl-14 focus:outline-none focus:ring focus:ring-[#4D62BF] focus:bg-[#242C34] transition ease-in-out" placeholder="Password" required>
+            </div>
+            <div class="password error"></div>
+            <button class="w-full h-14 bg-[#4D62BF] rounded-lg text-ccm text-white font-light">Start posting now</button>
+            
+        </form>
+        <p class="text-center text-ccm font-light text-white">Already a member? <a href="/login" class="text-[#4D62BF]">Login</a></p>
+    </div>
+<script>
+        const form = document.querySelector('form')
+        const usernameError = document.querySelector('.username.error')
+        const passwordError = document.querySelector('.password.error')
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault()
+
+            // reset errors
+
+            usernameError.textContent = ''
+            passwordError.textContent = ''
+
+            // get values
+            const username = form.username.value
+            const password = form.password.value
+
+            try {
+                const res = await fetch('/signup', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, password }),
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                const data = await res.json()
+                console.log(data)
+                if (data.errors) {
+                    usernameError.textContent = data.errors.username
+                    passwordError.textContent = data.errors.password
+                }
+                if (data.user) {
+                    location.assign('/')
+                }
+            }
+            catch (err) {
+                console.log(err)
+            }
+
+        })
+    </script>
+</body>

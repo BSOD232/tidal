@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#1d232a]">
+<%- include('./partials/head.ejs') %>
+
+<body class="h-full p-7 bg-[#1d232a]">
+    <%- include('./partials/page.ejs') %>
+    <%- include('./partials/cards.ejs') %>
+    
+    <script>
+
+        const postcard = document.getElementById('post')
+        const title = document.getElementById('titlepost')
+        const bodypost = document.getElementById('bodypost')
+        console.log(bodypost)
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        const post = urlParams.get('post')
+        if (post == 'block') {
+            postcard.classList.add('block')
+        } else {
+            postcard.classList.add('hidden')
+        }
+
+        postcard.addEventListener('submit', (e) => {
+            e.preventDefault()
+            document.getElementById('postcardbutton').disabled = true;
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "/posts");
+            xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
+
+            const body = JSON.stringify({
+                id: '<%= user.id %>',
+                user: '<%= user.username %>',
+                title: title.value,
+                body: bodypost.value
+            });
+            xhr.onload = () => {
+                if (xhr.readyState == 4 && xhr.status == 201) {
+                    console.log(JSON.parse(xhr.responseText));
+                    
+                } else {
+                    console.log(`Error: ${xhr.status}`);
+                }
+            };
+            xhr.send(body);
+            location.href = '/'
+        })
+        const pfpform = document.getElementById('pfps');
+        const settings = urlParams.get('settings')
+        if (settings == 'block') {
+            pfpform.classList.add('block')
+        } else {
+            pfpform.classList.add('hidden')
+        }
+        pfpform.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent the default form submission
+
+            const fileInput = pfpform.querySelector('input[name="pfp"]');
+            const file = fileInput.files[0];
+
+            if (file) {
+            const formData = new FormData();
+            formData.append('pfp', file);
+            formData.append('id', '<%= user.id %>')
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                if (response.ok) {
+                    console.log('File uploaded successfully');
+                    location.href = '/'
+                    // Handle success
+                } else {
+                    console.log('File upload failed');
+                    // Handle failure
+                }
+                })
+                .catch(error => {
+                console.log('Error uploading file:', error);
+                // Handle error
+                });
+            }
+        });
+    </script>
+    
+</body>

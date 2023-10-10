@@ -1,0 +1,64 @@
+
+
+
+<header class="w-full h-auto flex flex-row items-center mb-7 justify-between">
+    <img src="logo.svg" class="h-10"/>
+    <div class="h-10 w-2/6 absolute left-2/4 ttmid2">
+        <input type="text" class="h-full w-full bg-secondary rounded-lg pl-12 text-tidal-lightgray font-primary text-sm" placeholder="Search the ocean..">
+        <div class="absolute top-0 h-full w-10 flex items-center justify-center">
+            <i class="fa-solid fa-magnifying-glass" style="color: #5D6876;"></i>
+        </div>
+    </div>
+    <button class="flex flex-row h-auto items-center justify-between hover:bg-secondary p-2 rounded-lg" onclick="location.href = '?settings=block'">
+        <img src="/images/<%= user.id %>.png" class="h-10 w-10 rounded-lg mr-4"/>
+        <p class="text-white text-lg"><%= user.username %></p>
+    </button>
+</header>
+
+<div class="w-full calcheight3 flex flex-row justify-between">
+    <div class="h-full w-52">
+        <button onclick="location.href = '/?post=block'" class="transition hover:bg-[#6681f5] bg-tidalblue h-14 w-32 text-white rounded-xl flex flex-row justify-between items-center pl-7 pr-7"><i class="fa-solid fa-pencil" style="color: #ffffff;"></i>Post</button>
+        <ul class="mt-7 flex flex-col text-white">
+            <a href="/"><li class="transition bg-tidalblue h-auto w-full px-3 py-2 rounded-xl hover:bg-[#6681f5]"><i class="fa-solid fa-house mr-6 w-6" style="color: #ffffff;"></i>Home</li></a>
+            <a href=""><li class="transition h-auto w-full px-3 py-2 rounded-xl hover:bg-secondary"><i class="fa-solid fa-basketball mr-6  w-6" style="color: #ffffff;"></i>Communities</li></a>
+            <a href=""><li class="transition h-auto w-full px-3 py-2 rounded-xl hover:bg-secondary"><i class="fa-solid fa-hashtag mr-6 w-6" style="color: #ffffff;"></i>Tags</li></a>
+            <a href="/messages"><li class="transition h-auto w-full px-3 py-2 rounded-xl hover:bg-secondary"><i class="fa-solid fa-message mr-6 w-6" style="color: #ffffff;"></i>Messages</li></a>
+            <a href=""><li class="transition h-auto w-full px-3 py-2 rounded-xl hover:bg-secondary"><i class="fa-solid fa-users mr-6 w-6" style="color: #ffffff;"></i>People</li></a>
+        </ul>
+    </div>
+    <div class="calcheight4 w-2/6 rounded-lg absolute left-2/4 ttmid2 ">
+        <div class="w-full h-auto bg-secondary p-5 rounded-lg relative mb-5">
+            <div class="flex flex-row items-center">
+                <div class="w-10 h-10 rounded-lg bg-red-500 flex justify-center items-center">
+                    <p class="text-white">!</p>
+                </div>
+                <div class="flex flex-col ml-5">
+                    <p class="text-white text-sm">ANNOUNCEMENT</p>
+                </div>
+            </div>
+            <h1 class="text-white my-3 text-lg">Public Release Beta V1.0</h1>
+            <p class="w-full break-words text-[#abacb3]">
+                Welcome to Tidal.
+            </p>
+        </div>
+        <% posts.forEach(post => { %>
+            <div class="w-full h-auto bg-secondary p-5 rounded-lg relative mb-5">
+                <div class="flex flex-row items-center">
+                    <img src="/images/<%= post.id %>.png" class="h-10 w-10 rounded-lg"/>
+                    <div class="flex flex-col ml-5">
+                        <p class="text-white text-sm"><%= post.user%></p>
+                        <p class="text-white text-sm text-tidal-lightgray">in <span class="color-tidalyellow">GLOBAL</span></p>
+                    </div>
+                </div>
+                <h1 class="text-white my-3 text-lg"><%= post.title %></h1>
+                <p class="w-full break-words text-[#abacb3]">
+                    <%= post.body %>
+                </p>
+            </div>
+        <% }) %>
+        
+    </div>
+    <!-- <div class="h-full w-96 bg-secondary">
+
+    </div> -->
+</div>

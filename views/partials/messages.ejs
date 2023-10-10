@@ -1,0 +1,71 @@
+
+
+
+<header class="w-full h-auto flex flex-row items-center mb-7 justify-between">
+    <img src="logo.svg" class="h-10"/>
+    <div class="h-10 w-2/6 absolute left-2/4 ttmid2">
+        <input type="text" class="h-full w-full bg-secondary rounded-lg pl-12 text-tidal-lightgray font-primary text-sm" placeholder="Search the ocean..">
+        <div class="absolute top-0 h-full w-10 flex items-center justify-center">
+            <i class="fa-solid fa-magnifying-glass" style="color: #5D6876;"></i>
+        </div>
+    </div>
+    <button class="flex flex-row h-auto items-center justify-between hover:bg-secondary p-2 rounded-lg" onclick="location.href = '?settings=block'">
+        <img src="/images/<%= user.id %>.png" class="h-10 w-10 rounded-lg mr-4"/>
+        <p class="text-white text-lg"><%= user.username %></p>
+    </button>
+</header>
+
+<div class="w-full calcheight3 flex flex-row justify-between">
+    <div class="h-full w-52">
+        <button onclick="location.href = '/?post=block'" class="transition hover:bg-[#6681f5] bg-tidalblue h-14 w-32 text-white rounded-xl flex flex-row justify-between items-center pl-7 pr-7"><i class="fa-solid fa-pencil" style="color: #ffffff;"></i>Post</button>
+        <ul class="mt-7 flex flex-col text-white">
+            <a href="/"><li class="transition h-auto w-full px-3 py-2 rounded-xl hover:bg-secondary"><i class="fa-solid fa-house mr-6 w-6" style="color: #ffffff;"></i>Home</li></a>
+            <a href=""><li class="transition h-auto w-full px-3 py-2 rounded-xl hover:bg-secondary"><i class="fa-solid fa-basketball mr-6  w-6" style="color: #ffffff;"></i>Communities</li></a>
+            <a href=""><li class="transition h-auto w-full px-3 py-2 rounded-xl hover:bg-secondary"><i class="fa-solid fa-hashtag mr-6 w-6" style="color: #ffffff;"></i>Tags</li></a>
+            <a href="/messages"><li class="transition bg-tidalblue h-auto w-full px-3 py-2 rounded-xl hover:bg-[#6681f5]"><i class="fa-solid fa-message mr-6 w-6" style="color: #ffffff;"></i>Messages</li></a>
+            <a href=""><li class="transition h-auto w-full px-3 py-2 rounded-xl hover:bg-secondary"><i class="fa-solid fa-users mr-6 w-6" style="color: #ffffff;"></i>People</li></a>
+        </ul>
+    </div>
+    <div class="calcheight4 w-2/6 rounded-lg absolute left-2/4 ttmid2 ">
+        <% if (!req.query.user) { %>
+            <div class="w-full h-auto bg-secondary p-5 rounded-lg">
+                <% users.forEach(userb => { %>
+                    <% if (userb.id !== user.id) { %> <!-- Add this condition to exclude the current user -->
+                      <button class="w-full h-20 bg-gray-700 mb-2 rounded-lg flex flex-row justify-between items-center" onclick="location.href = '/messages?user=<%= userb.id %>'">
+                        <div class="flex flex-row justify-center items-center p-5">
+                          <img src="/images/<%= userb.id %>.png" class="h-12 w-12 rounded-lg mr-4"/>
+                          <p class="text-white"><%= userb.username %></p>
+                        </div>
+                      </button>
+                    <% } %>
+                  <% }) %>
+            </div>
+            <% } else { %>
+                <div id="messagescroll" class="w-full h-auto bg-secondary rounded-lg flex justify-between flex-col p-5 max-h-96 overflow-y-scroll">
+                    <div id="messages">
+                        <% messages.forEach((message, index) => { %>
+                            <% if ((message.recipient === req.query.user && message.user === user.id) || (message.recipient === user.id && message.user === req.query.user)) { %>
+                              <div class="flex flex-row">
+                                <img src="/images/<%= pfps[index] %>.png" alt="" class="w-12 h-12 rounded-lg">
+                                <div class="flex flex-col space-between h-10 ml-5 mb-5">
+                                    <p class="font-bold text-white"><%= usernames[index] %></p>
+                                    <p class="text-gray-300"><%= message.message %></p>
+                                </div>
+                              </div>
+                            <% } %>
+                          <% }) %>
+                    </div>
+                    <form class="left-0 w-full" id="messageform">
+                        <div class="flex items-center">
+                            <input id="messageinput" autocomplete="off" class="flex-grow bg-gray-700 rounded-lg p-2 mr-2 text-gray-400 text-sm" placeholder="Send a message"/>
+                            <button class="bg-tidalblue text-white px-4 py-2 rounded-lg flex justify-between items-center w-24"><i class="fa-solid fa-paper-plane fa-sm" style="color: #ffffff;"></i>Send</button>
+                        </div>
+                    </form>
+                </div>
+            <% } %>
+        
+    </div>
+    <!-- <div class="h-full w-96 bg-secondary">
+
+    </div> -->
+</div>

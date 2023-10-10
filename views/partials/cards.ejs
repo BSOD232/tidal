@@ -1,0 +1,52 @@
+<!-- <div class="max-w-sm rounded-lg bg-primary absolute left-2/4 top-2/4 ttmid p-5 w-72 shadow-2xl">
+        <h5 class="mb-5 text-2xl font-bold tracking-tight text-white text-center">Make some waves</h5>
+        <form action="" class="w-full">
+            <input name="title" type="search" class="w-full h-8 bg-secondary rounded-lg mb-3 text-center" placeholder="Title" required>
+            <textarea name="title" type="search" class="w-full h-24 bg-secondary rounded-lg resize-none text-center" placeholder="Message" required></textarea>
+        </form>
+</div> -->
+<form id="post" class="rounded-tl-lg rounded-tr-lg bg-primary absolute left-2/4 top-2/4 ttmid p-5 w-122 shadow-2xl">
+    <header class="flex justify-between mb-5">
+        <p class="text-white">Make some waves</p>
+        <button type="button" onclick="location.href = '/'"><i class="fa-solid fa-x fa-sm" style="color: #ffffff;"></i></button>
+    </header>
+    <div class="flex justify-between">
+        <div>
+            <p class="text-sm mb-2 text-[#abacb3]">Attached image</p>
+            <div class="bg-secondary w-52 h-40 rounded-lg">
+                <img src="lol.jpg" alt="" class="w-full h-full rounded-lg">
+            </div>
+        </div>
+        
+        <div class="w-56">
+            <div class="">
+                <p class="text-sm mb-2 text-[#abacb3]">Post</p>
+                <input type="text" name="title" id="titlepost" placeholder="Title" class="w-full bg-gray-700 h-7 rounded-lg pl-2 text-sm mb-2 text-[#abacb3]" required>
+                <textarea id="bodypost" name="body" placeholder="Body" class="w-full bg-gray-700 h-24 rounded-lg pl-2 text-sm text-[#abacb3]" required></textarea>
+            </div>
+            <!-- <div class="flex items-center">
+                <label class="relative inline-flex items-center cursor-pointer"> 
+                    <input type="checkbox" value="" class="sr-only peer">
+                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-300">Schedule Post</span>
+                </label>
+            </div> -->
+        </div>
+    </div>
+    <footer class="bg-gray-700 w-122 -ml-5 h-14 absolute mt-5 rounded-bl-lg rounded-br-lg p-3 flex justify-end">
+        <button class="h-full w-20 bg-tidalblue rounded-lg text-sm text-white" id="postcardbutton">Post</button>
+    </footer>
+</form>
+
+<form id="pfps" class="rounded-tl-lg rounded-tr-lg bg-primary absolute left-2/4 top-2/4 ttmid p-5 w-122 shadow-2xl">
+    <header class="flex justify-between mb-5">
+        <p class="text-white">Make some waves</p>
+        <button type="button" onclick="location.href = '/'"><i class="fa-solid fa-x fa-sm" style="color: #ffffff;"></i></button>
+    </header>
+    <div class="flex justify-between">
+        <input name="pfp" type="file" />
+    </div>
+    <footer class="bg-gray-700 w-122 -ml-5 h-14 absolute mt-5 rounded-bl-lg rounded-br-lg p-3 flex justify-end">
+        <button class="h-full w-20 bg-tidalblue rounded-lg text-sm text-white">Save</button>
+    </footer>
+</form>
