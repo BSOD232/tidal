@@ -50,7 +50,7 @@ app.get('*', checkUser)
 app.use(checkUser);
 
 // connect to mongodb & listen for requests
-const dburi = 'mongodb+srv://billybsod:wowokthereLOLomg@tidal.ug0a5ux.mongodb.net/tidal?retryWrites=true&w=majority';
+const dburi = 'yourmongodbhere (cannot use anything other)';
 mongoose.connect(dburi)
   .then((result) => {
     server.listen(3001, () => {
