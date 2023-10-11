@@ -1,0 +1,79 @@
+<script>
+
+    const postcard = document.getElementById('post')
+    const title = document.getElementById('titlepost')
+    const bodypost = document.getElementById('bodypost')
+    const overlay = document.getElementById('overlay')
+    const closeModalBtn = document.getElementById('closeModalBtn')
+
+    const openModal = function (modalId) {
+        document.getElementById(modalId).classList.remove("hidden");
+        overlay.classList.remove("hidden");
+    };
+
+    const closeModal = function (modalId) {
+        document.getElementById(modalId).classList.add("hidden")
+        overlay.classList.add("hidden");
+    };
+
+    overlay.addEventListener("click", () => {
+        closeModal('post')
+        closeModal('settings')
+    });
+
+    postcard.addEventListener('submit', (e) => {
+        e.preventDefault()
+        document.getElementById('postcardbutton').disabled = true;
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/posts");
+        xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8")
+
+        const body = JSON.stringify({
+            id: '<%= user.id %>',
+            user: '<%= user.username %>',
+            title: title.value,
+            body: bodypost.value
+        });
+        xhr.onload = () => {
+            if (xhr.readyState == 4 && xhr.status == 201) {
+                console.log(JSON.parse(xhr.responseText));
+                
+            } else {
+                console.log(`Error: ${xhr.status}`);
+            }
+        };
+        xhr.send(body);
+        location.href = '/'
+    })
+    const settings = document.getElementById('settings');
+    settings.addEventListener('submit', (e) => {
+        e.preventDefault(); // Prevent the default form submission
+
+        const fileInput = pfpform.querySelector('input[name="pfp"]');
+        const file = fileInput.files[0];
+
+        if (file) {
+        const formData = new FormData();
+        formData.append('pfp', file);
+        formData.append('id', '<%= user.id %>')
+
+        fetch('/upload', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+            if (response.ok) {
+                console.log('File uploaded successfully');
+                // Handle success
+            } else {
+                console.log('File upload failed');
+                // Handle failure
+            }
+            })
+            .catch(error => {
+            console.log('Error uploading file:', error);
+            // Handle error
+            });
+        }
+    });
+</script>
