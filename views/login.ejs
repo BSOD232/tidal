@@ -27,23 +27,23 @@
     </div>
     <div class="p-14 absolute right-0 rem35 h-full bg-[#1D232A]">
         <i class="fa-solid fa-circle-up fa-xl mb-7" style="color: #ffffff;"></i>
-        <h1 class="text-white text-ccm mb-7 text-2xl">Join communities, talk to friends, all in school.</h1>
-        <p class="text-[#A7A7A7] text-ccc mb-7">Participating in school communities and conversing with friends cultivates social connections and personal development in education.</p>
+        <h1 class="text-white mb-7 text-2xl">Join communities, talk to friends, all in school.</h1>
+        <p class="text-[#A7A7A7] mb-7">Participating in school communities and conversing with friends cultivates social connections and personal development in education.</p>
         <form id="chat-form" class="w-full h-62 mb-7" action="/signup" method="POST">
             <div class="mb-7 flex items-center">
                 <i class="fa-solid fa-circle-user fa-xl absolute ml-4" style="color: #ffffff;"></i>
-                <input name="username" type="text" class="font-light text-white text-ccm w-full h-14 bg-[#1D232A] border border-[#3d4248] rounded-lg pl-14 focus:outline-none focus:ring focus:ring-[#4D62BF] focus:bg-[#242C34] transition ease-in-out" placeholder="Username" required>
+                <input name="username" type="text" class="font-light text-white w-full h-14 bg-[#1D232A] border border-[#3d4248] rounded-lg pl-14 focus:outline-none focus:ring focus:ring-[#4D62BF] focus:bg-[#242C34] transition ease-in-out" placeholder="Username" required>
             </div>
             <div class="username error"></div>
             <div class="mb-7 flex items-center">
                 <i class="fa-solid fa-lock fa-xl absolute ml-4" style="color: #ffffff;"></i>
-                <input name="password" type="password" class="font-light text-white text-ccm w-full h-14 bg-[#1D232A] border border-[#3d4248] rounded-lg pl-14 focus:outline-none focus:ring focus:ring-[#4D62BF] focus:bg-[#242C34] transition ease-in-out" placeholder="Password" required>
+                <input name="password" type="password" class="font-light text-white w-full h-14 bg-[#1D232A] border border-[#3d4248] rounded-lg pl-14 focus:outline-none focus:ring focus:ring-[#4D62BF] focus:bg-[#242C34] transition ease-in-out" placeholder="Password" required>
             </div>
             <div class="password error"></div>
-            <button class="w-full h-14 bg-[#4D62BF] rounded-lg text-ccm text-white font-light">Start posting again</button>
+            <button class="w-full h-14 bg-[#4D62BF] rounded-lg text-white font-light">Start posting again</button>
             
         </form>
-        <p class="text-center text-ccm font-light text-white">Not a member? <a href="/signup" class="text-[#4D62BF]">Sign Up</a></p>
+        <p class="text-center font-light text-white">Not a member? <a href="/signup" class="text-[#4D62BF]">Sign Up</a></p>
     </div>
     <script>
         const form = document.querySelector('form')

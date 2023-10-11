@@ -1,7 +1,4 @@
-@font-face { 
-    font-family: Orienta; 
-    src: url('Orienta-Regular.ttf'); 
-} 
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&display=swap');
 
 ::-webkit-scrollbar {
     width: 20px;
